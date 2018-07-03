@@ -4,9 +4,12 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
+	"io"
 	"os"
 )
 
+// TODO: N-way file zip
+// TODO: Custom separator
 var (
 	file1 = flag.String("file1", "", "first file (leading)")
 	file2 = flag.String("file2", "", "second file (trailing)")
@@ -27,16 +30,23 @@ func main() {
 	}
 	defer f2.Close()
 
-	scanner1 := bufio.NewScanner(f1)
-	scanner1.Buffer([]byte{}, 1024*1024)
+	scanner1 := NewCustomScanner(f1)
+	scanner2 := NewCustomScanner(f2)
 
-	scanner2 := bufio.NewScanner(f2)
-	scanner2.Buffer([]byte{}, 1024*1024)
-
+	// assumes file 1 is bigger
+	// TODO: flush contents of file two
 	for scanner1.Scan() {
 		fmt.Println(scanner1.Text())
 		if scanner2.Scan() {
 			fmt.Println(scanner2.Text())
 		}
 	}
+}
+
+// NewCustomScanner sets maxTokenSize to 1024 * 1024
+// default is 64 * 1024
+func NewCustomScanner(r io.Reader) (scn *bufio.Scanner) {
+	scn = bufio.NewScanner(r)
+	scn.Buffer([]byte{}, 1024*1024)
+	return
 }
