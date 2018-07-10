@@ -19,17 +19,14 @@ func main() {
 		scanners[NewCustomScanner(f)] = false
 	}
 
-	for {
-		var allDone = true
+	for done := false; !done; {
+		done = true
 		for k := range scanners {
 			var ok bool
 			if ok = k.Scan(); ok {
 				fmt.Println(k.Text())
 			}
-			allDone = allDone && !ok
-		}
-		if allDone {
-			break
+			done = done && !ok
 		}
 	}
 }
