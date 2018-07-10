@@ -1,5 +1,5 @@
 # zf
-zip the contents of two files
+zip the contents of N files
 
 Say `one.txt` has the following contents:
 
@@ -7,28 +7,35 @@ Say `one.txt` has the following contents:
     2
     3
 
-And `two.txt`:
+`two.txt`:
 
     A
     B
     C
 
+And `three.txt`:
+
+    a
+    b
+    c
+
 Running:
 
-    zf -file1 one.txt -file2 two.txt
+    zf one.txt two.txt three.txt
 
 Will output the following to stdout:
 
     1
     A
+    a
     2
     B
+    b
     3
     C
+    c
 
 ## TODO:
-
-* `zf file1.txt file2.txt ... fileN.txt`
 * add separator flag (i.e. something other than the newline character)
 * customizable (dynamic?) buffer maxTokenSize
 
